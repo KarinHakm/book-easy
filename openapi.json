@@ -1,0 +1,206 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Book-Easy API",
+    "version": "1.0.0",
+    "description": "API for managing reservations, clients, services, and calendar events for salons, gyms, and similar businesses."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/clients": {
+      "get": {
+        "summary": "Get all clients",
+        "responses": {
+          "200": {
+            "description": "A list of clients"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new client",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Client created successfully"
+          }
+        }
+      }
+    },
+    "/appointments": {
+      "get": {
+        "summary": "Get all appointments",
+        "responses": {
+          "200": {
+            "description": "A list of appointments"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new appointment",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Appointment created successfully"
+          }
+        }
+      }
+    },
+    "/appointments/{id}": {
+      "get": {
+        "summary": "Get appointment by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Appointment found"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update appointment by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppointmentInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Appointment updated successfully"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete appointment by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Appointment deleted successfully"
+          },
+          "404": {
+            "description": "Appointment not found"
+          }
+        }
+      }
+    },
+    "/calendar": {
+      "get": {
+        "summary": "Get calendar view of appointments",
+        "responses": {
+          "200": {
+            "description": "Calendar data returned successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ClientInput": {
+        "type": "object",
+        "required": ["name", "email", "phone"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Jane Smith"
+          },
+          "email": {
+            "type": "string",
+            "example": "jane@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+37255512345"
+          }
+        }
+      },
+      "AppointmentInput": {
+        "type": "object",
+        "required": ["clientId", "service", "date", "time", "status"],
+        "properties": {
+          "clientId": {
+            "type": "integer",
+            "example": 1
+          },
+          "service": {
+            "type": "string",
+            "example": "Haircut"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-04-25"
+          },
+          "time": {
+            "type": "string",
+            "example": "14:00"
+          },
+          "status": {
+            "type": "string",
+            "example": "confirmed"
+          }
+        }
+      }
+    }
+  }
+}
